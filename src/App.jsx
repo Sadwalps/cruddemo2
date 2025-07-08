@@ -4,16 +4,47 @@ import Header from './Header'
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Card from 'react-bootstrap/Card';
 
 function App() {
 
   const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    handleCancel()
+    setShow(false);
+  }
   const handleShow = () => setShow(true);
+
+  const [details, setDetails] = useState({
+    fishName: "",
+    description: ""
+  })
+  console.log(details);
+
+  const handleCancel = () => {
+    setDetails({
+      fishName: "",
+      description: ""
+    })
+  }
+
+  const handleAdd = () => {
+    const { fishName, description } = details
+    console.log(fishName, description);
+    if (!fishName || !description) {
+      alert(`Fill the form completely`)
+    } else {
+      alert(`success`)
+    }
+
+  }
   return (
     <>
-      <Header />
+      <div style={{ position: "sticky", top: "0px" }}>
+        <Header />
+      </div>
+
       {/* Home section */}
       <div id='homesection' className='d-flex justify-content-center align-items-center'>
         <div className='p-3 rounded text-center bg-light text-primary'>
@@ -26,20 +57,78 @@ function App() {
               <Modal.Title className='text-primary'>Add Details</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <input type="text" className='form-control p-2 text-center bg-primary text-light rounded mt-2' placeholder='Fish name'  />
-              
-              <textarea name="" id="" className='form-control p-2 text-center bg-primary text-light rounded mt-3' placeholder='description'></textarea>
+              <input type="text" className='form-control p-2 text-center bg-primary text-light rounded mt-2' value={details.fishName} onChange={(e) => setDetails({ ...details, fishName: e.target.value })} placeholder='Fish name' />
+
+              <textarea name="" id="" className='form-control p-2 text-center bg-primary text-light rounded mt-3' value={details.description} onChange={(e) => setDetails({ ...details, description: e.target.value })} placeholder='description'></textarea>
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
-                Close
+              <Button variant="secondary" onClick={handleCancel}>
+                Cancel
               </Button>
-              <Button variant="primary" onClick={handleClose}>
-                Save Changes
+              <Button variant="primary" onClick={handleAdd}>
+                Add details
               </Button>
             </Modal.Footer>
           </Modal>
         </div>
+      </div>
+
+      {/* added details section */}
+      <div className='container-fluid py-4 px-4' id='bodysection'>
+        <div className='container-fluid rounded  bg-light '>
+          <div className="row p-3">
+            <div className="col-md-4 d-flex justify-content-center align-items-center ">
+              <Card style={{ width: '22rem' }} className='bg-primary text-light text-center'>
+                <Card.Body>
+                  <Card.Title>Card Title</Card.Title>
+                  <Card.Text>
+                    Some quick example text to build on the card title and make up the
+                    bulk of the card's content.
+                  </Card.Text>
+                  {/* <Card.Link href="#">Card Link</Card.Link>
+                  <Card.Link href="#">Another Link</Card.Link> */}
+                </Card.Body>
+              </Card>
+            </div>
+
+            <div className="col-md-4 d-flex justify-content-center align-items-center ">
+              <Card style={{ width: '22rem' }} className='bg-primary text-light text-center'>
+                <Card.Body>
+                  <Card.Title>Card Title</Card.Title>
+                  <Card.Text>
+                    Some quick example text to build on the card title and make up the
+                    bulk of the card's content.
+                  </Card.Text>
+                  {/* <Card.Link href="#">Card Link</Card.Link>
+                  <Card.Link href="#">Another Link</Card.Link> */}
+                </Card.Body>
+              </Card>
+            </div>
+
+            <div className="col-md-4 d-flex justify-content-center align-items-center ">
+              <Card style={{ width: '22rem' }} className='bg-primary text-light text-center'>
+                <Card.Body>
+                  <Card.Title>Card Title</Card.Title>
+                  <Card.Text>
+                    Some quick example text to build on the card title and make up the
+                    bulk of the card's content.
+                  </Card.Text>
+                  {/* <Card.Link href="#">Card Link</Card.Link>
+                  <Card.Link href="#">Another Link</Card.Link> */}
+                </Card.Body>
+              </Card>
+            </div>
+
+          </div>
+
+        </div>
+
+        {/* if Details not added */}
+        <div className='conatiner-fluid p-3 bg-light text-primary rounded mt-4 text-center'>
+          <h2 className='my-4'>Details not added yet!!!</h2>
+
+        </div>
+
       </div>
       <Footer />
     </>

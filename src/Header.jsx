@@ -9,9 +9,9 @@ function Header() {
                 <Container>
                     <Navbar.Brand href="#home">Aqua</Navbar.Brand>
                     <Nav className="ms-auto">
-                        <Nav.Link href="#home">Home</Nav.Link>
+                        <Nav.Link href="#homesection">Home</Nav.Link>
                         <Nav.Link href="#features">Add Details</Nav.Link>
-                        <Nav.Link href="#pricing">Added Details</Nav.Link>
+                        <Nav.Link href="#bodysection">Added Details</Nav.Link>
                     </Nav>
                 </Container>
             </Navbar>
