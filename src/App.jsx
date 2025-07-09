@@ -5,6 +5,7 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Card from 'react-bootstrap/Card';
+import { addDetailsAPI } from './services/allApi';
 
 function App() {
 
@@ -29,15 +30,27 @@ function App() {
     })
   }
 
-  const handleAdd = () => {
+  const handleAdd = async () => {
     const { fishName, description } = details
     console.log(fishName, description);
     if (!fishName || !description) {
       alert(`Fill the form completely`)
     } else {
-      alert(`success`)
-    }
+      const reqBody = new FormData()
+      reqBody.append("fishName", fishName)
+      reqBody.append("description", description)
 
+      const result = await addDetailsAPI(reqBody)
+      console.log(result);
+      if (result.status == 200) {
+        alert(`Success`)
+      } else if (result.status == 406) {
+        alert(`result.response.data`)
+      } else {
+        alert(`Something went wrong`)
+      }
+      handleClose()
+    }
   }
   return (
     <>
