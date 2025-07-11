@@ -1,15 +1,17 @@
 import './App.css'
 import Footer from './Footer'
 import Header from './Header'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Card from 'react-bootstrap/Card';
-import { addDetailsAPI } from './services/allApi';
+import { addDetailsAPI, getDetailsAPI } from './services/allApi';
 
 function App() {
 
   const [show, setShow] = useState(false);
+
+  const [showdetails, setShowdetails] = useState([])
 
   const handleClose = () => {
     handleCancel()
@@ -52,6 +54,19 @@ function App() {
       handleClose()
     }
   }
+
+  const getdetails = async()=>{
+    const result = await getDetailsAPI()
+    setShowdetails(result.data)
+
+  }
+  console.log(showdetails);
+
+  useEffect(()=>{
+   getdetails()
+  
+  },[])
+  
   return (
     <>
       <div style={{ position: "sticky", top: "0px" }}>
@@ -88,59 +103,31 @@ function App() {
 
       {/* added details section */}
       <div className='container-fluid py-4 px-4' id='bodysection'>
-        <div className='container-fluid rounded  bg-light '>
+      
+      {showdetails? <div className='container-fluid rounded  bg-light '>
           <div className="row p-3">
-            <div className="col-md-4 d-flex justify-content-center align-items-center ">
+            
+           {showdetails?.map((item)=> <div className="col-md-4 mt-2 d-flex justify-content-center align-items-center ">
               <Card style={{ width: '22rem' }} className='bg-primary text-light text-center'>
                 <Card.Body>
-                  <Card.Title>Card Title</Card.Title>
+                  <Card.Title>{item?.fishName}</Card.Title>
                   <Card.Text>
-                    Some quick example text to build on the card title and make up the
-                    bulk of the card's content.
+                    {item?.description}
                   </Card.Text>
                   {/* <Card.Link href="#">Card Link</Card.Link>
                   <Card.Link href="#">Another Link</Card.Link> */}
                 </Card.Body>
               </Card>
-            </div>
-
-            <div className="col-md-4 d-flex justify-content-center align-items-center ">
-              <Card style={{ width: '22rem' }} className='bg-primary text-light text-center'>
-                <Card.Body>
-                  <Card.Title>Card Title</Card.Title>
-                  <Card.Text>
-                    Some quick example text to build on the card title and make up the
-                    bulk of the card's content.
-                  </Card.Text>
-                  {/* <Card.Link href="#">Card Link</Card.Link>
-                  <Card.Link href="#">Another Link</Card.Link> */}
-                </Card.Body>
-              </Card>
-            </div>
-
-            <div className="col-md-4 d-flex justify-content-center align-items-center ">
-              <Card style={{ width: '22rem' }} className='bg-primary text-light text-center'>
-                <Card.Body>
-                  <Card.Title>Card Title</Card.Title>
-                  <Card.Text>
-                    Some quick example text to build on the card title and make up the
-                    bulk of the card's content.
-                  </Card.Text>
-                  {/* <Card.Link href="#">Card Link</Card.Link>
-                  <Card.Link href="#">Another Link</Card.Link> */}
-                </Card.Body>
-              </Card>
-            </div>
-
+            </div>)}
           </div>
 
-        </div>
+        </div>:
 
-        {/* if Details not added */}
+        
         <div className='conatiner-fluid p-3 bg-light text-primary rounded mt-4 text-center'>
           <h2 className='my-4'>Details not added yet!!!</h2>
 
-        </div>
+        </div>}
 
       </div>
       <Footer />
