@@ -55,18 +55,18 @@ function App() {
     }
   }
 
-  const getdetails = async()=>{
+  const getdetails = async () => {
     const result = await getDetailsAPI()
     setShowdetails(result.data)
 
   }
   console.log(showdetails);
 
-  useEffect(()=>{
-   getdetails()
-  
-  },[])
-  
+  useEffect(() => {
+    getdetails()
+
+  }, [showdetails])
+
   return (
     <>
       <div style={{ position: "sticky", top: "0px" }}>
@@ -103,17 +103,20 @@ function App() {
 
       {/* added details section */}
       <div className='container-fluid py-4 px-4' id='bodysection'>
-      
-      {showdetails? <div className='container-fluid rounded  bg-light '>
+
+        {showdetails ? <div className='container-fluid rounded  bg-light '>
           <div className="row p-3">
-            
-           {showdetails?.map((item)=> <div className="col-md-4 mt-2 d-flex justify-content-center align-items-center ">
+
+            {showdetails?.map((item) => <div className="col-md-4 mt-2 d-flex justify-content-center align-items-center ">
               <Card style={{ width: '22rem' }} className='bg-primary text-light text-center'>
                 <Card.Body>
                   <Card.Title>{item?.fishName}</Card.Title>
                   <Card.Text>
                     {item?.description}
                   </Card.Text>
+                  <div>
+                    <button className='btn btn-danger'>Delete</button>
+                  </div>
                   {/* <Card.Link href="#">Card Link</Card.Link>
                   <Card.Link href="#">Another Link</Card.Link> */}
                 </Card.Body>
@@ -121,13 +124,13 @@ function App() {
             </div>)}
           </div>
 
-        </div>:
+        </div> :
 
-        
-        <div className='conatiner-fluid p-3 bg-light text-primary rounded mt-4 text-center'>
-          <h2 className='my-4'>Details not added yet!!!</h2>
 
-        </div>}
+          <div className='conatiner-fluid p-3 bg-light text-primary rounded mt-4 text-center'>
+            <h2 className='my-4'>Details not added yet!!!</h2>
+
+          </div>}
 
       </div>
       <Footer />
