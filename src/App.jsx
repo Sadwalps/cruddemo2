@@ -5,11 +5,15 @@ import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Card from 'react-bootstrap/Card';
-import { addDetailsAPI, getDetailsAPI } from './services/allApi';
+import { addDetailsAPI, deletedetailsAPI, getDetailsAPI } from './services/allApi';
 
 function App() {
 
   const [show, setShow] = useState(false);
+
+  const [removeStatus, setRemoveStatus] = useState({})
+ 
+  
 
   const [showdetails, setShowdetails] = useState([])
 
@@ -62,10 +66,24 @@ function App() {
   }
   console.log(showdetails);
 
+  const deletedetails =async (id)=>{
+    const result = await deletedetailsAPI(id)
+    console.log(result);
+    if(result.status==200){
+      alert(`deleted`)
+      setRemoveStatus(result)
+    }else{
+      alert(`error`)
+    }
+  
+  }
+ 
+  
+
   useEffect(() => {
     getdetails()
 
-  }, [showdetails])
+  }, [removeStatus])
 
   return (
     <>
@@ -106,7 +124,11 @@ function App() {
 
         {showdetails ? <div className='container-fluid rounded  bg-light '>
           <div className="row p-3">
+            <div className='d-flex justify-content-center py-4'>
+              <input type="text"   className='w-50 form-control rounded bg-primary text-light text-center' placeholder='Search ' />
+            </div>
 
+          
             {showdetails?.map((item) => <div className="col-md-4 mt-2 d-flex justify-content-center align-items-center ">
               <Card style={{ width: '22rem' }} className='bg-primary text-light text-center'>
                 <Card.Body>
@@ -115,7 +137,7 @@ function App() {
                     {item?.description}
                   </Card.Text>
                   <div>
-                    <button className='btn btn-danger'>Delete</button>
+                    <button onClick={()=>deletedetails(item?._id)} className='btn btn-danger'>Delete</button>
                   </div>
                   {/* <Card.Link href="#">Card Link</Card.Link>
                   <Card.Link href="#">Another Link</Card.Link> */}
